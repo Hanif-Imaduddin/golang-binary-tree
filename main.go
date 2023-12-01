@@ -43,15 +43,31 @@ func (b bst) inOrderTraversalByNode(sb *strings.Builder, root *node) {
 	b.inOrderTraversalByNode(sb, root.right)
 }
 
-func main() {
-	n := &node{value: 1, left: nil, right: nil}
-	n.left = &node{value: 2, left: nil, right: nil}
-	n.left.left = &node{value: 8, left: nil, right: nil}
-	n.right = &node{value: 3, left: nil, right: nil}
-
-	b := &bst{
-		root: n,
-		len:  3,
+func (b *bst) add(value int) {
+	b.root = b.addByNode(b.root, value)
+	b.len++
+}
+func (b *bst) addByNode(root *node, value int) *node {
+	if root == nil {
+		return &node{value: value}
 	}
+	if value < root.value {
+		root.left = b.addByNode(root.left, value)
+	} else {
+		root.right = b.addByNode(root.right, value)
+	}
+	return root
+}
+
+func main() {
+	b := &bst{
+		root: nil,
+		len:  0,
+	}
+	b.add(65)
+	b.add(32)
+	b.add(17)
+	b.add(14)
 	fmt.Println(b)
+	fmt.Println(b.len)
 }
