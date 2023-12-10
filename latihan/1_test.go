@@ -70,6 +70,22 @@ func (b *bst) removeByNode(data int, root *node) *node {
 	return root
 }
 
+func (b *bst) search(data int) bool {
+	return b.searchByNode(data, b.root)
+}
+func (b *bst) searchByNode(data int, root *node) bool {
+	if root == nil {
+		return false
+	}
+	if data == root.data {
+		return true
+	} else if data < root.data {
+		return b.searchByNode(data, root.left)
+	} else {
+		return b.searchByNode(data, root.right)
+	}
+}
+
 func TestLatihan1(t *testing.T) {
 	b := &bst{
 		root:   nil,
@@ -87,4 +103,5 @@ func TestLatihan1(t *testing.T) {
 	fmt.Println()
 	b.remove(12)
 	b.print()
+	fmt.Println(b.search(30))
 }
