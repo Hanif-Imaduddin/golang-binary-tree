@@ -42,20 +42,49 @@ func (b *bst) addByNode(data int, root *node) *node {
 	return root
 }
 
-func TestLatihan1(t *testing.T) {
-	// n := &node{data: 5, left: nil, right: nil}
-	// n.left = &node{data: 3, left: nil, right: nil}
-	// n.left.left = &node{data: 2, left: nil, right: nil}
-	// n.left.right = &node{data: 4, left: nil, right: nil}
-	// n.right = &node{data: 6, left: nil, right: nil}
+func (b *bst) remove(data int) {
+	b.removeByNode(data, b.root)
+}
 
+func (b *bst) removeByNode(data int, root *node) *node {
+	if root == nil {
+		return nil
+	}
+
+	if data < root.data {
+		root.left = b.removeByNode(data, root.left)
+	} else if data > root.data {
+		root.right = b.removeByNode(data, root.right)
+	} else {
+		if root.left == nil {
+			return root.right
+		} else {
+			temp := root.left
+			for temp.right != nil {
+				temp = temp.right
+			}
+			root.data = temp.data
+			root.left = b.removeByNode(temp.data, root.left)
+		}
+	}
+	return root
+}
+
+func TestLatihan1(t *testing.T) {
 	b := &bst{
 		root:   nil,
 		length: 5,
 	}
-	b.add(6)
-	b.add(1)
-	b.add(2)
-	b.add(-100)
+	b.add(24)
+	b.add(12)
+	b.add(36)
+	b.add(7)
+	b.add(15)
+	b.add(5)
+	b.add(9)
+	b.add(11)
+	b.print()
+	fmt.Println()
+	b.remove(12)
 	b.print()
 }
